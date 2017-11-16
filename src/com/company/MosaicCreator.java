@@ -19,30 +19,24 @@ public class MosaicCreator extends PApplet{
 
         PApplet.main(MosaicCreator.class.getName());
     }
-    PImage img;
+
+    private PImage img;
+    //List of the Images' url
+    private List<String> resultUrls = new ArrayList<>();
 
     public void settings() {
-        //size();
-    }
-
-    public void setup() {
         //Have to find all the images fist to make the Mosaic
 
-        Scanner input = new Scanner(System.in);
-        System.out.println("Search for an image: ");
-        String search = input.nextLine();
-
-
+//        Scanner input = new Scanner(System.in);
+//        System.out.println("Search for an image: ");
+        String search = "kittens";
 
         String userAgent = "Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.116 Safari/537.36";
         //TODO Change the whatever they searched
-        String url = "https://www.google.com/search?site=imghp&tbm=isch&source=hp&q=" + search + "&gws_rd=cr";
-
-        //List of the Images' url
-        List<String> resultUrls = new ArrayList<>();
+        String searchURL = "https://www.google.com/search?site=imghp&tbm=isch&source=hp&q=" + search + "&gws_rd=cr";
 
         try {
-            Document doc = Jsoup.connect(url).userAgent(userAgent).referrer("https://www.google.com/").get();
+            Document doc = Jsoup.connect(searchURL).userAgent(userAgent).referrer("https://www.google.com/").get();
 
             Elements elements = doc.select("div.rg_meta");
 
@@ -65,10 +59,18 @@ public class MosaicCreator extends PApplet{
         } catch (IOException e) {
             e.printStackTrace();
         }
-        
+
+        size(600, 749);
+    }
+
+    public void setup() {
+        String url = resultUrls.get(0);
+        img = loadImage(url);
 
     }
+
     public void draw() {
+        image(img, 0, 0);
 
     }
 }
