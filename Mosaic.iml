@@ -10,5 +10,6 @@
     <orderEntry type="library" name="R Skeletons" level="application" />
     <orderEntry type="library" name="Processing" level="project" />
     <orderEntry type="library" name="jsoup" level="project" />
+    <orderEntry type="library" name="R User Library" level="project" />
   </component>
 </module>

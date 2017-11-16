@@ -10,6 +10,7 @@ import processing.data.JSONObject;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class MosaicCreator extends PApplet{
 
@@ -23,13 +24,18 @@ public class MosaicCreator extends PApplet{
     public void settings() {
         //size();
     }
-    //Have to find all the images fist to
-    public void setup() {
 
-        String search = "kittens";
+    public void setup() {
+        //Have to find all the images fist to make the Mosaic
+
+        Scanner input = new Scanner(System.in);
+        System.out.println("Search for an image: ");
+        String search = input.nextLine();
+
+
 
         String userAgent = "Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.116 Safari/537.36";
-        //TODO Change the search to whatever they want. Not just kittens.
+        //TODO Change the whatever they searched
         String url = "https://www.google.com/search?site=imghp&tbm=isch&source=hp&q=" + search + "&gws_rd=cr";
 
         //List of the Images' url
@@ -59,7 +65,7 @@ public class MosaicCreator extends PApplet{
         } catch (IOException e) {
             e.printStackTrace();
         }
-
+        
 
     }
     public void draw() {
