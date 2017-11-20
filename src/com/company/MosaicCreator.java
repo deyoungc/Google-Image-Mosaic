@@ -21,7 +21,7 @@ public class MosaicCreator extends PApplet{
     }
 
     private PImage img;
-
+    private PImage[] imgs;
 
     public void settings() {
         //Have to find all the images first to make the Mosaic
@@ -53,13 +53,14 @@ public class MosaicCreator extends PApplet{
 
             System.out.println("number of results: " + resultUrls.size());
 
-            int i = 1;
+            int j = 1;
             for (String imageUrl : resultUrls) {
-                System.out.println(i + ": " + imageUrl);
-                i++;
+                System.out.println(j + ": " + imageUrl);
+                j++;
             }
 
             String url = resultUrls.get(0);
+
             //Sometimes the image url includes .jpg at the end and sometimes it doesn't.
             //The loadImage method needs to know the file extension and if the url it doesn't include it,
             // it needs to know to add it.
@@ -68,6 +69,20 @@ public class MosaicCreator extends PApplet{
             }else{
                 img = loadImage(url, "jpg");
             }
+
+            imgs = new PImage[100];
+            for (int i = 0; i < 100; i++) {
+
+                if(url.substring(url.length()-4, url.length()).equals(".jpg")){
+                    imgs[i] = loadImage(resultUrls.get(i));
+                }else{
+                    imgs[i] = loadImage(resultUrls.get(i), "jpg");
+                }
+                System.out.println(resultUrls.get(i));
+            }
+
+//            imageBright = new SmallImage[100];
+//            System.arraycopy(imgs, 0, imageBright, 0, imgs.length);
 
         } catch (IOException e) {
             e.printStackTrace();
