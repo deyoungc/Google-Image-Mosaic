@@ -81,8 +81,6 @@ public class MosaicCreator extends PApplet{
                 System.out.println(resultUrls.get(i));
             }
 
-//            imageBright = new SmallImage[100];
-//            System.arraycopy(imgs, 0, imageBright, 0, imgs.length);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -92,7 +90,6 @@ public class MosaicCreator extends PApplet{
     }
 
     public void setup() {
-
 
     }
 
