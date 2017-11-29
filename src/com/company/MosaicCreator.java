@@ -10,6 +10,7 @@ import processing.data.JSONObject;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.PriorityQueue;
 import java.util.Scanner;
 
 public class MosaicCreator extends PApplet{
@@ -20,19 +21,26 @@ public class MosaicCreator extends PApplet{
         PApplet.main(MosaicCreator.class.getName());
     }
 
-    private PImage img;
+    private PImage topResult;
     private PImage[] imgs;
+    private int scl = 16;
 
     public void settings() {
-        //Have to find all the images first to make the Mosaic
+        size(600, 600);
+
+
+
+    }
+
+    public void setup() {
 
 //        Scanner input = new Scanner(System.in);
 //        System.out.println("Search for an image: ");
         String search = "kittens";
-
         String userAgent = "Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.116 Safari/537.36";
         //TODO Change the image to whatever they searched
         String searchURL = "https://www.google.com/search?site=imghp&tbm=isch&source=hp&q=" + search + "&gws_rd=cr";
+
 
         try {
             Document doc = Jsoup.connect(searchURL).userAgent(userAgent).referrer("https://www.google.com/").get();
@@ -51,50 +59,51 @@ public class MosaicCreator extends PApplet{
                 }
             }
 
-            System.out.println("number of results: " + resultUrls.size());
-
-            int j = 1;
-            for (String imageUrl : resultUrls) {
-                System.out.println(j + ": " + imageUrl);
-                j++;
-            }
-
             String url = resultUrls.get(0);
 
             //Sometimes the image url includes .jpg at the end and sometimes it doesn't.
-            //The loadImage method needs to know the file extension and if the url it doesn't include it,
-            // it needs to know to add it.
-            if(url.substring(url.length()-4, url.length()).equals(".jpg")){
-                img = loadImage(url);
+            //The loadImage method needs to know the file extension if the url doesn't include it.
+            String fileExt = url.substring(url.length()-4, url.length());
+            if(fileExt.equals(".jpg")){
+                topResult = loadImage(url);
             }else{
-                img = loadImage(url, "jpg");
+                topResult = loadImage(url, "jpg");
             }
 
             imgs = new PImage[100];
             for (int i = 0; i < 100; i++) {
+                PImage img;
 
-                if(url.substring(url.length()-4, url.length()).equals(".jpg")){
-                    imgs[i] = loadImage(resultUrls.get(i));
+                url = resultUrls.get(i);
+                fileExt = url.substring(url.length()-4, url.length());
+                if(fileExt.equals(".jpg")){
+                    img = loadImage(resultUrls.get(i));
                 }else{
-                    imgs[i] = loadImage(resultUrls.get(i), "jpg");
+                    img = loadImage(resultUrls.get(i), "jpg");
                 }
-                System.out.println(resultUrls.get(i));
+
+                //scale image down
+                imgs[i] = createImage(scl, scl, RGB);
+                imgs[i].copy(img, 0,0, img.width, img.height, 0, 0, scl, scl);
+                imgs[i].loadPixels();
+
+                float avg = 0;
+
+                for (int x = 0; x < imgs[i].pixels.length; x++){
+                    float b = brightness(imgs[i].pixels[x]);
+                    avg += b;
+                }
+                avg /= imgs[i].pixels.length;
             }
 
 
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        size(img.width, img.height);
-    }
-
-    public void setup() {
-
     }
 
     public void draw() {
-        image(img, 0, 0);
+        image(topResult, 0, 0);
 
 
         noLoop();
