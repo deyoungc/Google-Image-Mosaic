@@ -7,10 +7,12 @@ public class BinaryTree {
         this.root = null;
     }
 
-    public boolean find(int value){
+    public boolean find(Float value){
+        final float error = 0.001f;
+
         Node current = root;
         while(current!=null){
-            if(current.value == value){
+            if(Math.abs(current.value - value) < error){
                 return true;
             }else if(current.value > value){
                 current = current.left;
@@ -21,7 +23,9 @@ public class BinaryTree {
         return false;
     }
 
-    public boolean Insert(int value) {
+    public boolean Insert(Float value) {
+        final float error = 0.001f;
+
         Node newNode = new Node(value);
 
         if (root == null) {
@@ -34,7 +38,7 @@ public class BinaryTree {
         while(true){
             parent = current;
             //Don't want a duplicate value.
-            if (value == current.value){
+            if(Math.abs(current.value - value) < error){
                 return false;
             }
             else if(value < current.value){

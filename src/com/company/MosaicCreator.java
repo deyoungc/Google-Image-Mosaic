@@ -10,8 +10,7 @@ import processing.data.JSONObject;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.PriorityQueue;
-import java.util.Scanner;
+
 
 public class MosaicCreator extends PApplet{
 
@@ -23,6 +22,7 @@ public class MosaicCreator extends PApplet{
 
     private PImage topResult;
     private PImage[] imgs;
+    private BinaryTree brightVal;
     private int scl = 16;
 
     public void settings() {
@@ -37,11 +37,11 @@ public class MosaicCreator extends PApplet{
 //        Scanner input = new Scanner(System.in);
 //        System.out.println("Search for an image: ");
         String search = "kittens";
-        String userAgent = "Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.116 Safari/537.36";
+        String userAgent = "Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.116";
         //TODO Change the image to whatever they searched
         String searchURL = "https://www.google.com/search?site=imghp&tbm=isch&source=hp&q=" + search + "&gws_rd=cr";
 
-
+        String[] results;
         try {
             Document doc = Jsoup.connect(searchURL).userAgent(userAgent).referrer("https://www.google.com/").get();
 
@@ -55,7 +55,7 @@ public class MosaicCreator extends PApplet{
             for (Element element : elements) {
                 if (element.childNodeSize() > 0) {
                     jsonObject = JSONObject.parse(element.childNode(0).toString());
-                    resultUrls.add(jsonObject.getString("ou"));
+                    resultUrls.add(jsonObject.getString("tu"));
                 }
             }
 
@@ -82,11 +82,11 @@ public class MosaicCreator extends PApplet{
                     img = loadImage(resultUrls.get(i), "jpg");
                 }
 
-                //scale image down
                 imgs[i] = createImage(scl, scl, RGB);
                 imgs[i].copy(img, 0,0, img.width, img.height, 0, 0, scl, scl);
                 imgs[i].loadPixels();
 
+                brightVal = new BinaryTree();
                 float avg = 0;
 
                 for (int x = 0; x < imgs[i].pixels.length; x++){
@@ -94,12 +94,15 @@ public class MosaicCreator extends PApplet{
                     avg += b;
                 }
                 avg /= imgs[i].pixels.length;
+                brightVal.Insert(avg);
             }
 
 
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        noLoop();
     }
 
     public void draw() {

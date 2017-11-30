@@ -1,10 +1,10 @@
 package com.company;
 
 public class Node {
-    int value;
+    Float value;
     Node left;
     Node right;
-    public Node(int value){
+    public Node(Float value){
         this.value = value;
         left = null;
         right = null;
