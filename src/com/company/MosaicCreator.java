@@ -20,10 +20,14 @@ public class MosaicCreator extends PApplet{
         PApplet.main(MosaicCreator.class.getName());
     }
 
-    private PImage topResult;
+    //since this will kind of be pixelated we don't need every pixel. Smaller image has less pixels.
+    private PImage smallTopResult;
     private PImage[] imgs;
     private BinaryTree brightVal;
     private int scl = 16;
+
+    int w;
+    int h;
 
     public void settings() {
         size(600, 600);
@@ -33,6 +37,7 @@ public class MosaicCreator extends PApplet{
     }
 
     public void setup() {
+        PImage topResult = new PImage();
 
 //        Scanner input = new Scanner(System.in);
 //        System.out.println("Search for an image: ");
@@ -41,7 +46,6 @@ public class MosaicCreator extends PApplet{
         //TODO Change the image to whatever they searched
         String searchURL = "https://www.google.com/search?site=imghp&tbm=isch&source=hp&q=" + search + "&gws_rd=cr";
 
-        String[] results;
         try {
             Document doc = Jsoup.connect(searchURL).userAgent(userAgent).referrer("https://www.google.com/").get();
 
@@ -94,7 +98,7 @@ public class MosaicCreator extends PApplet{
                     avg += b;
                 }
                 avg /= imgs[i].pixels.length;
-                brightVal.Insert(avg);
+                brightVal.insert(avg, i);
             }
 
 
@@ -102,11 +106,26 @@ public class MosaicCreator extends PApplet{
             e.printStackTrace();
         }
 
-        noLoop();
+        w = topResult.width/scl;
+        h = topResult.height/scl;
+
+        smallTopResult = createImage(w, h, RGB);
+        smallTopResult.copy(topResult, 0, 0, topResult.width, topResult.height, 0, 0, w, h);
     }
 
     public void draw() {
-        image(topResult, 0, 0);
+        background(0);
+        smallTopResult.loadPixels();
+
+        for (int x = 0; x < w; x++){
+            for (int y = 0; y < h; y++){
+                int index = x + y * w;
+
+                float b = brightness(smallTopResult.pixels[index]);
+
+            }
+        }
+        //image(topResult, 0, 0);
 
 
         noLoop();

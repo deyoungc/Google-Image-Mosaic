@@ -2,12 +2,15 @@ package com.company;
 
 public class BinaryTree {
     private Node root;
+    public int size;
 
     public BinaryTree(){
         this.root = null;
+        this.size = 0;
     }
 
-    public boolean find(Float value){
+    //TODO Change this to find closest value
+    public boolean findClosest(Float value){
         final float error = 0.001f;
 
         Node current = root;
@@ -23,10 +26,11 @@ public class BinaryTree {
         return false;
     }
 
-    public boolean Insert(Float value) {
+    public boolean insert(Float value, int index) {
+        size++;
         final float error = 0.001f;
 
-        Node newNode = new Node(value);
+        Node newNode = new Node(value, index);
 
         if (root == null) {
             root = newNode;
