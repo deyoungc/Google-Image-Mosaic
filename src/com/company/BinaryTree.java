@@ -10,20 +10,27 @@ public class BinaryTree {
     }
 
     //TODO Change this to find closest value
-    public boolean findClosest(Float value){
+    public Node findClosest(Float value){
         final float error = 0.001f;
+        //use 256 since that's the max brightness value
+        float min = 256f;
 
         Node current = root;
         while(current!=null){
             if(Math.abs(current.value - value) < error){
-                return true;
+                return current;
             }else if(current.value > value){
-                current = current.left;
+                float diff = Math.abs(value - current.value);
+                if (diff < min) {
+                    current = current.left;
+                }
             }else{
+                float diff = Math.abs(value - current.value);
+                if ()
                 current = current.right;
             }
         }
-        return false;
+        return null;
     }
 
     public boolean insert(Float value, int index) {
