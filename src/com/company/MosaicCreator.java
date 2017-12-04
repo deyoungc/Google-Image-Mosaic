@@ -26,8 +26,8 @@ public class MosaicCreator extends PApplet{
     private BinaryTree brightVal;
     private int scl = 16;
 
-    int w;
-    int h;
+    private int w;
+    private int h;
 
     public void settings() {
         size(600, 600);
@@ -75,6 +75,7 @@ public class MosaicCreator extends PApplet{
             }
 
             imgs = new PImage[100];
+            brightVal = new BinaryTree();
             for (int i = 0; i < 100; i++) {
                 PImage img;
 
@@ -90,7 +91,6 @@ public class MosaicCreator extends PApplet{
                 imgs[i].copy(img, 0,0, img.width, img.height, 0, 0, scl, scl);
                 imgs[i].loadPixels();
 
-                brightVal = new BinaryTree();
                 float avg = 0;
 
                 for (int x = 0; x < imgs[i].pixels.length; x++){
@@ -122,7 +122,10 @@ public class MosaicCreator extends PApplet{
                 int index = x + y * w;
 
                 float b = brightness(smallTopResult.pixels[index]);
-
+                float closestB = brightVal.findClosest(b).value;
+                int imgIndex = brightVal.findClosest(b).index;
+                System.out.println("brightness value is: " + b + "\nclosest value with index is: " + closestB + ", " + imgIndex + "\n");
+                image(imgs[imgIndex], x*scl, y*scl, scl, scl);
             }
         }
         //image(topResult, 0, 0);

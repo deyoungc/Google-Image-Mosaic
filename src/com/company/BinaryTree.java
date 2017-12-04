@@ -16,24 +16,31 @@ public class BinaryTree {
         float min = 256f;
 
         Node current = root;
+        Node result = root;
         while(current!=null){
+            float diff = Math.abs(value - current.value);
+
             if(Math.abs(current.value - value) < error){
                 return current;
+
             }else if(current.value > value){
-                float diff = Math.abs(value - current.value);
                 if (diff < min) {
-                    current = current.left;
+                    min = diff;
+                    result = current;
                 }
+                current = current.left;
             }else{
-                float diff = Math.abs(value - current.value);
-                if ()
+                if (diff < min) {
+                    min = diff;
+                    result = current;
+                }
                 current = current.right;
             }
         }
-        return null;
+        return result;
     }
 
-    public boolean insert(Float value, int index) {
+    public void insert(Float value, int index) {
         size++;
         final float error = 0.001f;
 
@@ -41,7 +48,7 @@ public class BinaryTree {
 
         if (root == null) {
             root = newNode;
-            return true;
+            return;
         }
 
         Node current = root;
@@ -50,21 +57,24 @@ public class BinaryTree {
             parent = current;
             //Don't want a duplicate value.
             if(Math.abs(current.value - value) < error){
-                return false;
+                return;
             }
             else if(value < current.value){
                 current = current.left;
                 if(current == null){
                     parent.left = newNode;
-                    return true;
+                    return;
                 }
             }else{
                 current = current.right;
                 if(current == null){
                     parent.right = newNode;
-                    return true;
+                    return;
                 }
             }
         }
+    }
+    public void printTree(){
+
     }
 }
