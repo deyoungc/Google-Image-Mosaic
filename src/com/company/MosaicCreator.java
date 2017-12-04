@@ -10,6 +10,7 @@ import processing.data.JSONObject;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 
 public class MosaicCreator extends PApplet{
@@ -20,17 +21,21 @@ public class MosaicCreator extends PApplet{
         PApplet.main(MosaicCreator.class.getName());
     }
 
+
+
     //since this will kind of be pixelated we don't need every pixel. Smaller image has less pixels.
     private PImage smallTopResult;
     private PImage[] imgs;
     private BinaryTree brightVal;
-    private int scl = 16;
+    private int scl = 8;
+
+    boolean hasSearched = false;
 
     private int w;
     private int h;
 
     public void settings() {
-        size(600, 600);
+        size(800, 800);
 
 
 
@@ -39,9 +44,10 @@ public class MosaicCreator extends PApplet{
     public void setup() {
         PImage topResult = new PImage();
 
-//        Scanner input = new Scanner(System.in);
-//        System.out.println("Search for an image: ");
-        String search = "kittens";
+        Scanner input = new Scanner(System.in);
+        System.out.print("Search for an image: ");
+        String search = input.nextLine();
+        hasSearched = true;
         String userAgent = "Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.116";
         //TODO Change the image to whatever they searched
         String searchURL = "https://www.google.com/search?site=imghp&tbm=isch&source=hp&q=" + search + "&gws_rd=cr";
@@ -63,6 +69,11 @@ public class MosaicCreator extends PApplet{
                 }
             }
 
+            if (resultUrls.size() == 0) {
+                System.out.println("No Google image results, please try another search.");
+                System.exit(0);
+            }
+
             String url = resultUrls.get(0);
 
             //Sometimes the image url includes .jpg at the end and sometimes it doesn't.
@@ -74,9 +85,11 @@ public class MosaicCreator extends PApplet{
                 topResult = loadImage(url, "jpg");
             }
 
+            topResult.resize(600, 0);
+
             imgs = new PImage[100];
             brightVal = new BinaryTree();
-            for (int i = 0; i < 100; i++) {
+            for (int i = 0; i < resultUrls.size(); i++) {
                 PImage img;
 
                 url = resultUrls.get(i);
@@ -122,10 +135,8 @@ public class MosaicCreator extends PApplet{
                 int index = x + y * w;
 
                 float b = brightness(smallTopResult.pixels[index]);
-                float closestB = brightVal.findClosest(b).value;
                 int imgIndex = brightVal.findClosest(b).index;
-                System.out.println("brightness value is: " + b + "\nclosest value with index is: " + closestB + ", " + imgIndex + "\n");
-                image(imgs[imgIndex], x*scl, y*scl, scl, scl);
+                    image(imgs[imgIndex], x*scl, y*scl, scl, scl);
             }
         }
         //image(topResult, 0, 0);
