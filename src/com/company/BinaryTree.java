@@ -74,7 +74,4 @@ public class BinaryTree {
             }
         }
     }
-    public void printTree(){
-
-    }
 }

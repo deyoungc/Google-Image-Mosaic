@@ -1,8 +1,8 @@
 package com.company;
 
 public class Node {
-    Float value;
-    public int index;
+    public final Float value;
+    public final int index;
     Node left;
     Node right;
     public Node(Float value, int index){
