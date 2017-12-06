@@ -47,9 +47,9 @@ public class MosaicCreator extends PApplet{
 
         String url = resultUrls.get(0);
 
-        //Sometimes the image url includes .jpg at the end and sometimes it doesn't.
-        //The loadImage method needs to know the file extension if the url doesn't include it.
         String fileExt = url.substring(url.length()-4, url.length());
+        //Sometimes the image url includes .jpg file extension and sometimes it doesn't.
+        //The loadImage method needs to know the file extension if the url doesn't include it.
         if(fileExt.equals(".jpg")){
             topResult = loadImage(url);
         }else{
@@ -57,11 +57,7 @@ public class MosaicCreator extends PApplet{
         }
 
         //Some images returned are really small
-        if (topResult.width > topResult.height){
-            topResult.resize(800, 0);
-        } else {
-            topResult.resize(0, 800);
-        }
+        resize(800, topResult);
 
         imgs = new PImage[100];
         brightVal = new BinaryTree();
@@ -70,25 +66,14 @@ public class MosaicCreator extends PApplet{
 
             //load image
             url = resultUrls.get(i);
-            fileExt = url.substring(url.length()-4, url.length());
-            if(fileExt.equals(".jpg")){
-                img = loadImage(resultUrls.get(i));
-            }else{
-                img = loadImage(resultUrls.get(i), "jpg");
-            }
+            img = loadImageCheckExt(url);
 
             //scale it down
             imgs[i] = createImage(scl, scl, RGB);
             imgs[i].copy(img, 0,0, img.width, img.height, 0, 0, scl, scl);
-            imgs[i].loadPixels();
 
             //get avg brightness for later
-            float avg = 0;
-            for (int x = 0; x < imgs[i].pixels.length; x++){
-                float b = brightness(imgs[i].pixels[x]);
-                avg += b;
-            }
-            avg /= imgs[i].pixels.length;
+            float avg = getAvgBright(imgs[i]);
             brightVal.insert(avg, i);
         }
 
@@ -149,5 +134,39 @@ public class MosaicCreator extends PApplet{
         }
 
         return resultUrls;
+    }
+
+    private void resize(int maxsize, PImage img) {
+        if (img.width > img.height){
+            img.resize(maxsize, 0);
+        } else {
+            img.resize(0, maxsize);
+        }
+    }
+
+    private PImage loadImageCheckExt(String url) {
+        PImage img;
+
+        String fileExt = url.substring(url.length()-4, url.length());
+        if(fileExt.equals(".jpg")){
+            img = loadImage(url);
+        }else{
+            img = loadImage(url, "jpg");
+        }
+
+        return img;
+    }
+
+    private int getAvgBright(PImage img){
+        int avg = 0;
+
+        img.loadPixels();
+        for (int x = 0; x < img.pixels.length; x++){
+            float b = brightness(img.pixels[x]);
+            avg += b;
+        }
+        avg /= img.pixels.length;
+
+        return avg;
     }
 }
