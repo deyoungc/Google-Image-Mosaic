@@ -1,5 +1,6 @@
 package com.company;
 
+//TODO Document
 public class Node {
     public final Float value;
     public final int index;

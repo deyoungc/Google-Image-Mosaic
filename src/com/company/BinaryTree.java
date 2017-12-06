@@ -1,5 +1,6 @@
 package com.company;
 
+//TODO Document
 public class BinaryTree {
     private Node root;
     public int size;
@@ -9,7 +10,7 @@ public class BinaryTree {
         this.size = 0;
     }
 
-    //TODO Change this to find closest value
+    //TODO Document
     public Node findClosest(Float value){
         final float error = 0.001f;
         //use 256 since that's the max brightness value
@@ -40,6 +41,7 @@ public class BinaryTree {
         return result;
     }
 
+    //TODO Document
     public void insert(Float value, int index) {
         size++;
         final float error = 0.001f;

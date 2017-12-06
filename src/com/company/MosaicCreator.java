@@ -104,6 +104,7 @@ public class MosaicCreator extends PApplet{
         noLoop();
     }
 
+    //TODO Add documentation
     private List<String> getGoogleUrls(String search){
         //List of the Images' url
         List<String> resultUrls = new ArrayList<>();
@@ -136,6 +137,7 @@ public class MosaicCreator extends PApplet{
         return resultUrls;
     }
 
+    //TODO Document
     private void resize(int maxsize, PImage img) {
         if (img.width > img.height){
             img.resize(maxsize, 0);
@@ -144,6 +146,7 @@ public class MosaicCreator extends PApplet{
         }
     }
 
+    //TODO Document
     private PImage loadImageCheckExt(String url) {
         PImage img;
 
@@ -157,6 +160,7 @@ public class MosaicCreator extends PApplet{
         return img;
     }
 
+    //TODO Document
     private int getAvgBright(PImage img){
         int avg = 0;
 
