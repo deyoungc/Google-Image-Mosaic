@@ -4,10 +4,10 @@ This program allow you to search on Google images and creates a Mosaic of the to
 ## Examples ##
 
 ### Badger Football ###
-![Mosaic of Badger Football player holding his helmet in the air](Examples/Badger Football.PNG)
+[Mosaic of Badger Football player holding his helmet in the air](Examples/Badger Football.PNG)
 
 ### Spider Man ###
-![Mosaic of SpiderMan] (Examples/Spiderman.PNG)
+[Mosaic of SpiderMan] (Examples/Spiderman.PNG)
 
 ### A$AP Rocky ####
-![Mosaic of A$AP Rocky Singing in a mic](Examples/Asap Rocky.PNG)
+[Mosaic of A$AP Rocky Singing in a mic](Examples/Asap Rocky.PNG)
