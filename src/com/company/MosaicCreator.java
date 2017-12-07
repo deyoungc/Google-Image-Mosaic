@@ -16,8 +16,6 @@ import java.util.Scanner;
 public class MosaicCreator extends PApplet{
 
     public static void main(String[] args) {
-
-
         PApplet.main(MosaicCreator.class.getName());
     }
 
@@ -33,7 +31,7 @@ public class MosaicCreator extends PApplet{
     private int h;
 
     public void settings() {
-        size(800, 800);
+        size(900, 900);
     }
 
     public void setup() {
@@ -47,17 +45,10 @@ public class MosaicCreator extends PApplet{
 
         String url = resultUrls.get(0);
 
-        String fileExt = url.substring(url.length()-4, url.length());
-        //Sometimes the image url includes .jpg file extension and sometimes it doesn't.
-        //The loadImage method needs to know the file extension if the url doesn't include it.
-        if(fileExt.equals(".jpg")){
-            topResult = loadImage(url);
-        }else{
-            topResult = loadImage(url, "jpg");
-        }
+        topResult = loadImageCheckExt(url);
 
         //Some images returned are really small
-        resize(800, topResult);
+        resize(900, topResult);
 
         imgs = new PImage[100];
         brightVal = new BinaryTree();
@@ -78,6 +69,7 @@ public class MosaicCreator extends PApplet{
         }
 
 
+        //Scale the top image result down
         w = topResult.width/scl;
         h = topResult.height/scl;
 
@@ -95,12 +87,12 @@ public class MosaicCreator extends PApplet{
                 int index = x + y * w;
 
                 float b = brightness(smallTopResult.pixels[index]);
+                //find the img index with the closes brightness to that of the top img result
                 int imgIndex = brightVal.findClosest(b).index;
                 image(imgs[imgIndex], x*scl, y*scl, scl, scl);
             }
         }
         //image(topResult, 0, 0);
-
         noLoop();
     }
 
@@ -139,6 +131,8 @@ public class MosaicCreator extends PApplet{
 
     //TODO Document
     private void resize(int maxsize, PImage img) {
+        //Since the canvas is 900 x 900, we want the largest dimension(maxsize) to be 800 pixels.
+        //Right now the maxsize is always 900.
         if (img.width > img.height){
             img.resize(maxsize, 0);
         } else {
@@ -150,7 +144,11 @@ public class MosaicCreator extends PApplet{
     private PImage loadImageCheckExt(String url) {
         PImage img;
 
+        //the File extension starts at 4 spots away (length - 4) from the last index to the last index.
         String fileExt = url.substring(url.length()-4, url.length());
+
+        //Sometimes the image url includes .jpg file extension and sometimes it doesn't.
+        //The loadImage method needs to know the file extension if the url doesn't include it
         if(fileExt.equals(".jpg")){
             img = loadImage(url);
         }else{
@@ -164,7 +162,9 @@ public class MosaicCreator extends PApplet{
     private int getAvgBright(PImage img){
         int avg = 0;
 
+        //with processing you need to load the pixels before being able to access them
         img.loadPixels();
+
         for (int x = 0; x < img.pixels.length; x++){
             float b = brightness(img.pixels[x]);
             avg += b;
