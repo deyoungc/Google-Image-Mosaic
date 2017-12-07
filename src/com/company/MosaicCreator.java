@@ -19,8 +19,6 @@ public class MosaicCreator extends PApplet{
         PApplet.main(MosaicCreator.class.getName());
     }
 
-
-
     //since this will kind of be pixelated we don't need every pixel. Smaller image has less pixels.
     private PImage smallTopResult;
     private PImage[] imgs;
@@ -76,6 +74,7 @@ public class MosaicCreator extends PApplet{
         smallTopResult = createImage(w, h, RGB);
         smallTopResult.copy(topResult, 0, 0, topResult.width, topResult.height, 0, 0, w, h);
 
+        noLoop();
     }
 
     public void draw() {
@@ -87,7 +86,7 @@ public class MosaicCreator extends PApplet{
                 int index = x + y * w;
 
                 float b = brightness(smallTopResult.pixels[index]);
-                //find the img index with the closes brightness to that of the top img result
+                //find the img index with the closest brightness to that of the top img result
                 int imgIndex = brightVal.findClosest(b).index;
                 image(imgs[imgIndex], x*scl, y*scl, scl, scl);
             }
@@ -96,7 +95,8 @@ public class MosaicCreator extends PApplet{
         noLoop();
     }
 
-    //TODO Add documentation
+    //This method takes a parameter of what the Google search is, uses the Jsoup library to scrape the image url results,
+    // and returns an ArrayList of all the results.
     private List<String> getGoogleUrls(String search){
         //List of the Images' url
         List<String> resultUrls = new ArrayList<>();
@@ -129,9 +129,10 @@ public class MosaicCreator extends PApplet{
         return resultUrls;
     }
 
-    //TODO Document
+    //This method takes in two parameters of the maxsize the image should be, and the img.
+    //it simply resizes it to the maxsize in its longest dimension.
     private void resize(int maxsize, PImage img) {
-        //Since the canvas is 900 x 900, we want the largest dimension(maxsize) to be 800 pixels.
+        //Since the canvas is 900 x 900, we want the largest dimension(maxsize) to be 900 pixels.
         //Right now the maxsize is always 900.
         if (img.width > img.height){
             img.resize(maxsize, 0);
@@ -140,7 +141,7 @@ public class MosaicCreator extends PApplet{
         }
     }
 
-    //TODO Document
+    //
     private PImage loadImageCheckExt(String url) {
         PImage img;
 
@@ -162,7 +163,7 @@ public class MosaicCreator extends PApplet{
     private int getAvgBright(PImage img){
         int avg = 0;
 
-        //with processing you need to load the pixels before being able to access them
+        //with processing library you need to load the pixels before being able to access them
         img.loadPixels();
 
         for (int x = 0; x < img.pixels.length; x++){
