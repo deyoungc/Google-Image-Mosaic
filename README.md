@@ -2,7 +2,7 @@
 This program allow you to search on Google images and creates a large Mosaic of the top result using the next 99 results.
 
 ## How to use ##
-Download [Mosaic.jar](Google-Image-Mosaic/out/artifacts/Mosaic_jar/Mosaic.jar).
+Download [Mosaic.jar](../../blob/master/out/artifacts/Mosaic_jar/Mosaic.jar).
 
 Open your terminal.
 
