@@ -1,6 +1,17 @@
 # Google-Image-Mosaic
 This program allow you to search on Google images and creates a large Mosaic of the top result using the next 99 results.
 
+## How to use ##
+Download [Mosaic.jar](Google-Image-Mosaic/out/artifacts/Mosaic_jar/Mosaic.jar).
+
+Open your terminal.
+
+Go to the file location of Mosaic.jar - `cd path/to/Mosaic.jar`
+
+Run the executable jar - `java -jar mosaic.jar`
+
+
+
 ## Examples ##
 
 ### Badger Football ###
