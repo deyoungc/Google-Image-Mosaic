@@ -4,11 +4,11 @@ This program allow you to search on Google images and creates a large Mosaic of 
 ## How to use ##
 Download [Mosaic.jar](../../blob/master/out/artifacts/Mosaic_jar/Mosaic.jar).
 
-Open your terminal.
+Open your Command Prompt or terminal.
 
-Go to the file location of Mosaic.jar - `cd path/to/Mosaic.jar`
+Go to the file location of Mosaic.jar - `cd path/to/Mosaic.jar` (Type in `cd downloads` most likely)
 
-Run the executable jar - `java -jar mosaic.jar`
+Run the executable jar - type in `java -jar mosaic.jar`
 
 
 
